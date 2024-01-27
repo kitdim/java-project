@@ -2,9 +2,13 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.controller.RootController;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
@@ -17,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class App {
+public final class App {
     private static final String PORT_DEFAULT = "7070";
     private static final String JDBC_URL_DEFAULT = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;";
     public static void main(String[] args) throws SQLException {
@@ -49,9 +53,16 @@ public class App {
         Javalin app = Javalin.create(config -> {
             config.plugins.enableDevLogging();
         });
+        JavalinJte.init(createTemplateEngine());
         app.get(NamedRoutes.rootPath(), RootController::index);
 
         return app;
+    }
+    private static TemplateEngine createTemplateEngine() {
+        ClassLoader classLoader = App.class.getClassLoader();
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
+        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
+        return templateEngine;
     }
 
     private static void setData(HikariConfig hikariConfig) {
