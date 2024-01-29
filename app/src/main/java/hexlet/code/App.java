@@ -6,6 +6,8 @@ import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.controller.RootController;
+import hexlet.code.controller.UrlController;
+import hexlet.code.repository.BaseRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
@@ -34,7 +36,7 @@ public final class App {
     public static Javalin getApp() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
         setData(hikariConfig);
-        DataSource dataSource = new HikariDataSource(hikariConfig);
+        HikariDataSource dataSource = new HikariDataSource(hikariConfig);
 
         InputStream inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
 
@@ -49,20 +51,21 @@ public final class App {
              var statement = connection.createStatement()) {
             statement.execute(sql);
         }
-
-        Javalin app = Javalin.create(config -> {
-            config.plugins.enableDevLogging();
-        });
+        BaseRepository.dataSource = dataSource;
+        Javalin app = Javalin.create(config -> config.plugins.enableDevLogging());
         JavalinJte.init(createTemplateEngine());
+
         app.get(NamedRoutes.rootPath(), RootController::index);
+        app.get(NamedRoutes.urlsPath(), UrlController::index);
+        app.get(NamedRoutes.urlPath("{id}"), UrlController::show);
+        app.post(NamedRoutes.urlsPath(), UrlController::create);
 
         return app;
     }
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
-        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
-        return templateEngine;
+        return TemplateEngine.create(codeResolver, ContentType.Html);
     }
 
     private static void setData(HikariConfig hikariConfig) {
