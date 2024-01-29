@@ -54,7 +54,6 @@ public class UrlController {
             log.info("warning");
             ctx.sessionAttribute("flash", INCORRECT_URL);
             ctx.sessionAttribute("flash-type", "warning");
-            ctx.status(400);
             ctx.redirect(NamedRoutes.rootPath());
             return;
         }
@@ -64,7 +63,6 @@ public class UrlController {
             log.info("info");
             ctx.sessionAttribute("flash", ALREADY_EXITS);
             ctx.sessionAttribute("flash-type", "info");
-            ctx.status(302);
             ctx.redirect(NamedRoutes.urlsPath());
         } else {
             log.info("success");
