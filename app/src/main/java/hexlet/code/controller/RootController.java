@@ -12,4 +12,5 @@ public final class RootController {
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("index.jte", Collections.singletonMap("page", page));
     }
+
 }
