@@ -7,6 +7,7 @@ import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.Normalizer;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,7 @@ public class UrlController {
         var page = new UrlsPage(urls);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
-        ctx.render("urls/index.jte", Collections.singletonMap("page", page));
+        ctx.render("urls/index.jte", Collections.singletonMap("page", page)).status(HttpStatus.OK);
     }
     public static void show(Context ctx) throws SQLException {
         Long id = ctx.pathParamAsClass("id", Long.class).get();
@@ -39,7 +40,7 @@ public class UrlController {
         UrlPage page = new UrlPage(url);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
-        ctx.render("urls/show.jte", Collections.singletonMap("page", page));
+        ctx.render("urls/show.jte", Collections.singletonMap("page", page)).status(HttpStatus.FOUND);
     }
     public static void create(Context ctx) throws SQLException {
         String input = ctx.formParamAsClass("url", String.class)
