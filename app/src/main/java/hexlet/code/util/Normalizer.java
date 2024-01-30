@@ -2,9 +2,7 @@ package hexlet.code.util;
 
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class Normalizer {
     public static String getNormalizedURL(URL url) {
