@@ -14,5 +14,5 @@ public final class Url {
     private Long id;
     private String name;
     private Timestamp createdAt;
-    private List<UrlChecks> urlChecks;
+    private List<UrlCheck> urlChecks;
 }
