@@ -1,6 +1,7 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,10 +37,12 @@ public class UrlRepository extends BaseRepository {
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
+                var urlChecks = UrlCheckRepository.getEntities(id).orElse(new ArrayList<>());
                 var url = Url.builder()
                         .id(id)
                         .name(name)
                         .createdAt(createdAt)
+                        .urlChecks(urlChecks)
                         .build();
                 return Optional.of(url);
             }
@@ -58,10 +61,12 @@ public class UrlRepository extends BaseRepository {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
+                List<UrlCheck> urlChecks = UrlCheckRepository.getEntities(id).orElse(new ArrayList<>());
                 var url = Url.builder()
                         .id(id)
                         .name(name)
                         .createdAt(createdAt)
+                        .urlChecks(urlChecks)
                         .build();
                 result.add(url);
             }
@@ -78,10 +83,12 @@ public class UrlRepository extends BaseRepository {
             if (resultSet.next()) {
                 Long id = resultSet.getLong("id");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
+                List<UrlCheck> urlChecks = UrlCheckRepository.getEntities(id).orElse(new ArrayList<>());
                 Url url = Url.builder()
                         .id(id)
                         .name(name)
                         .createdAt(createdAt)
+                        .urlChecks(urlChecks)
                         .build();
                 return Optional.of(url);
             }
