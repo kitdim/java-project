@@ -29,10 +29,16 @@ content = @`
                                     <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a>
                                 </td>
                                 <td>
-                                    ${Normalizer.getNormalizedTime(url.getCreatedAt())}
+                                    @if(url.getUrlChecks() == null)
+                                    @else
+                                        <p>${Normalizer.getNormalizedTime(url.getUrlChecks().get(0).getCreatedAt())}</p>
+                                    @endif
                                 </td>
                                 <td>
-                                    <p>Empty</p>
+                                    @if(url.getUrlChecks() == null)
+                                    @else
+                                        <p>${url.getUrlChecks().get(0).getStatusCode()}</p>
+                                    @endif
                                 </td>
                             </tr>
                         @endfor
