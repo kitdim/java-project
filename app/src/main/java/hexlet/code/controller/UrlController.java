@@ -32,6 +32,7 @@ public class UrlController {
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("urls/index.jte", Collections.singletonMap("page", page)).status(HttpStatus.OK);
     }
+
     public static void show(Context ctx) throws SQLException {
         Long id = ctx.pathParamAsClass("id", Long.class).get();
         Url url = UrlRepository.find(id)
@@ -42,6 +43,7 @@ public class UrlController {
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("urls/show.jte", Collections.singletonMap("page", page)).status(HttpStatus.FOUND);
     }
+
     public static void create(Context ctx) throws SQLException {
         String input = ctx.formParamAsClass("url", String.class)
                 .get()
