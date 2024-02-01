@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Getter
 @Setter
 @Builder
 public final class Url {
