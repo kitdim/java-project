@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UrlRepository extends BaseRepository {
+public class UrlsRepository extends BaseRepository {
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (var conn = dataSource.getConnection();
@@ -37,7 +37,7 @@ public class UrlRepository extends BaseRepository {
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
-                var urlChecks = UrlCheckRepository.getEntities(id).orElse(new ArrayList<>());
+                var urlChecks = UrlsCheckRepository.getEntities(id).orElse(new ArrayList<>());
                 var url = Url.builder()
                         .id(id)
                         .name(name)
@@ -61,7 +61,7 @@ public class UrlRepository extends BaseRepository {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
-                List<UrlCheck> urlChecks = UrlCheckRepository.getEntities(id).orElse(new ArrayList<>());
+                List<UrlCheck> urlChecks = UrlsCheckRepository.getEntities(id).orElse(new ArrayList<>());
                 var url = Url.builder()
                         .id(id)
                         .name(name)
@@ -83,7 +83,7 @@ public class UrlRepository extends BaseRepository {
             if (resultSet.next()) {
                 Long id = resultSet.getLong("id");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
-                List<UrlCheck> urlChecks = UrlCheckRepository.getEntities(id).orElse(new ArrayList<>());
+                List<UrlCheck> urlChecks = UrlsCheckRepository.getEntities(id).orElse(new ArrayList<>());
                 Url url = Url.builder()
                         .id(id)
                         .name(name)

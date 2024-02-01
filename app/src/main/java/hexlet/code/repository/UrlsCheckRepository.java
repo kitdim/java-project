@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static hexlet.code.repository.BaseRepository.dataSource;
 
-public class UrlCheckRepository {
+public class UrlsCheckRepository {
     public static void save(UrlCheck urlCheck) throws SQLException {
         String sql = "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";

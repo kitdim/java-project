@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 import java.util.StringJoiner;
 
 import hexlet.code.model.Url;
-import hexlet.code.repository.UrlCheckRepository;
-import hexlet.code.repository.UrlRepository;
+import hexlet.code.repository.UrlsCheckRepository;
+import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.HttpStatus;
 import okhttp3.mockwebserver.MockResponse;
@@ -75,24 +75,24 @@ public final class AppTest {
                 .createdAt(new Timestamp(System.currentTimeMillis()))
                 .name("https://www.example1.com")
                 .build();
-        UrlRepository.save(url);
+        UrlsRepository.save(url);
 
         JavalinTest.test(app, ((server, client) -> {
             var responseBody = "url=https://www.example2.com";
             var response = client.post(NamedRoutes.urlsPath(), responseBody);
 
             assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
-            assertThat(UrlRepository.getEntities().size()).isEqualTo(2);
-            assertTrue(UrlRepository.findByName("https://www.example1.com").isPresent());
-            assertTrue(UrlRepository.find(1L).isPresent());
+            assertThat(UrlsRepository.getEntities().size()).isEqualTo(2);
+            assertTrue(UrlsRepository.findByName("https://www.example1.com").isPresent());
+            assertTrue(UrlsRepository.find(1L).isPresent());
 
             response = client.post(NamedRoutes.urlsPath(), responseBody);
-            assertThat(UrlRepository.getEntities().size()).isEqualTo(2);
+            assertThat(UrlsRepository.getEntities().size()).isEqualTo(2);
             assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
 
             responseBody = "url=httpdssds31s://www.example2.com";
             response = client.post(NamedRoutes.urlsPath(), responseBody);
-            assertTrue(UrlRepository.findByName("httpdssds31s://www.example2.com").isEmpty());
+            assertTrue(UrlsRepository.findByName("httpdssds31s://www.example2.com").isEmpty());
         }));
     }
 
@@ -102,7 +102,7 @@ public final class AppTest {
                 .name("https://www.example1.com")
                 .createdAt(new Timestamp(System.currentTimeMillis()))
                 .build();
-        UrlRepository.save(url);
+        UrlsRepository.save(url);
         JavalinTest.test(app, ((server, client) -> {
             var response = client.get(NamedRoutes.urlPath(url.getId()));
             assertThat(response.code()).isEqualTo(HttpStatus.FOUND.getCode());
@@ -117,13 +117,13 @@ public final class AppTest {
                 .name(urlName)
                 .createdAt(new Timestamp(System.currentTimeMillis()))
                 .build();
-        UrlRepository.save(url);
+        UrlsRepository.save(url);
 
         JavalinTest.test(app, (server1, client) -> {
             var response = client.post(NamedRoutes.urlCheckPath(url.getId()));
             assertThat(response.code()).isEqualTo(HttpStatus.FOUND.getCode());
 
-            var urlCheck = UrlCheckRepository.find(url.getId()).orElse(null);
+            var urlCheck = UrlsCheckRepository.find(url.getId()).orElse(null);
             var title = urlCheck.getTitle();
             var h1 = urlCheck.getH1();
             var description = urlCheck.getDescription();

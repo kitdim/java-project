@@ -3,7 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
-import hexlet.code.repository.UrlRepository;
+import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.Normalizer;
 import io.javalin.http.Context;
@@ -26,7 +26,7 @@ public class UrlController {
     private static final String SUCCESSFULLY = "Page added successfully";
 
     public static void index(Context ctx) throws SQLException {
-        var urls = UrlRepository.getEntities();
+        var urls = UrlsRepository.getEntities();
         var page = new UrlsPage(urls);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
@@ -35,7 +35,7 @@ public class UrlController {
 
     public static void show(Context ctx) throws SQLException {
         Long id = ctx.pathParamAsClass("id", Long.class).get();
-        Url url = UrlRepository.find(id)
+        Url url = UrlsRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
         url.setId(id);
         UrlPage page = new UrlPage(url);
@@ -61,7 +61,7 @@ public class UrlController {
             return;
         }
 
-        boolean isFind = UrlRepository.findByName(normalizedUrl).isPresent();
+        boolean isFind = UrlsRepository.findByName(normalizedUrl).isPresent();
         if (isFind) {
             log.info("info");
             ctx.sessionAttribute("flash", ALREADY_EXITS);
@@ -71,7 +71,7 @@ public class UrlController {
             log.info("success");
             Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             Url url = Url.builder().name(normalizedUrl).createdAt(createdAt).build();
-            UrlRepository.save(url);
+            UrlsRepository.save(url);
             ctx.sessionAttribute("flash", SUCCESSFULLY);
             ctx.sessionAttribute("flash-type", "success");
             ctx.redirect(NamedRoutes.urlsPath());

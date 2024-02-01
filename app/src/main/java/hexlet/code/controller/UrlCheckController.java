@@ -2,8 +2,8 @@ package hexlet.code.controller;
 
 import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
-import hexlet.code.repository.UrlCheckRepository;
-import hexlet.code.repository.UrlRepository;
+import hexlet.code.repository.UrlsCheckRepository;
+import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
@@ -20,7 +20,7 @@ public class UrlCheckController {
     private static final String SUCCESSFULLY = "Page checked successfully";
     public static void createCheck(Context ctx) throws SQLException {
         Long urlId = ctx.pathParamAsClass("id", Long.class).get();
-        Url url = UrlRepository.find(urlId)
+        Url url = UrlsRepository.find(urlId)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + urlId + " not found"));
         try {
             HttpResponse<String> response = Unirest.get(url.getName()).asString();
@@ -46,7 +46,7 @@ public class UrlCheckController {
                     .description(description)
                     .build();
 
-            UrlCheckRepository.save(urlCheck);
+            UrlsCheckRepository.save(urlCheck);
             ctx.sessionAttribute("flash", SUCCESSFULLY);
             ctx.sessionAttribute("flash-type", "success");
         } catch (Exception e) {
