@@ -133,4 +133,19 @@ public final class AppTest {
             assertThat(description).isEqualTo("This is a description");
         });
     }
+    @Test
+    void testStore() throws SQLException {
+        String inputUrl = "https://ru.hexlet.io";
+
+        JavalinTest.test(app, (server, client) -> {
+            var requestBody = "url=" + inputUrl;
+            var response = client.post("/urls", requestBody);
+            assertThat(response.code()).isEqualTo(200);
+        });
+
+        Url actualUrl = UrlsRepository.findByName(inputUrl).orElse(null);
+
+        assertThat(actualUrl).isNotNull();
+        assertThat(actualUrl.getName()).isEqualTo(inputUrl);
+    }
 }
