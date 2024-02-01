@@ -25,6 +25,49 @@ content = @`
                 </tr>
                 </tbody>
             </table>
+            <h2 class="mt-5">Проверки</h2>
+            <form method="post" action="${NamedRoutes.urlCheckPath(page.getUrl().getId())}">
+                <button type="submit" class="btn btn-primary">Запустить проверку</button>
+            </form>
+            <table class="table table-bordered table-hover mt-3">
+                <thead>
+                <tr>
+                    <th class="col-1">ID</th>
+                    <th class="col-1">Код ответа</th>
+                    <th>title</th>
+                    <th>h1</th>
+                    <th>description</th>
+                    <th class="col-2">Дата проверки</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(page.getUrl().getUrlChecks() == null)
+                @else
+                    @for(var urlCheck : page.getUrl().getUrlChecks())
+                        <tr>
+                            <td>
+                                ${urlCheck.getId()}
+                            </td>
+                            <td>
+                                ${urlCheck.getStatusCode()}
+                            </td>
+                            <td>
+                                ${urlCheck.getTitle()}
+                            </td>
+                            <td>
+                                ${urlCheck.getH1()}
+                            </td>
+                            <td>
+                                ${urlCheck.getDescription()}
+                            </td>
+                            <td>
+                                ${Normalizer.getNormalizedTime(urlCheck.getCreatedAt())}
+                            </td>
+                        </tr>
+                    @endfor
+                @endif
+                </tbody>
+            </table>
         </div>
     </section>
 `)
