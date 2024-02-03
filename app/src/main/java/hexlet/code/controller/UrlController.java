@@ -53,8 +53,8 @@ public class UrlController {
         try {
             URL someUrl = new URI(input).toURL();
             normalizedUrl = Normalizer.getNormalizedURL(someUrl);
-        } catch (MalformedURLException | URISyntaxException | IllegalArgumentException e) {
-            log.info("warning");
+        } catch (Exception exception) {
+            log.info(exception.getMessage());
             ctx.sessionAttribute("flash", INCORRECT_URL);
             ctx.sessionAttribute("flash-type", "warning");
             ctx.redirect(NamedRoutes.rootPath());
