@@ -41,7 +41,7 @@ public class UrlController {
         UrlPage page = new UrlPage(url);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
-        ctx.render("urls/show.jte", Collections.singletonMap("page", page)).status(HttpStatus.FOUND);
+        ctx.render("urls/show.jte", Collections.singletonMap("page", page));
     }
 
     public static void create(Context ctx) throws SQLException {
