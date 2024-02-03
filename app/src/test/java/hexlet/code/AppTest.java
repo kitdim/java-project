@@ -105,7 +105,7 @@ public final class AppTest {
         UrlsRepository.save(url);
         JavalinTest.test(app, ((server, client) -> {
             var response = client.get(NamedRoutes.urlPath(url.getId()));
-            assertThat(response.code()).isEqualTo(HttpStatus.FOUND.getCode());
+            assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
             assertTrue(response.body().string().contains(url.getName()));
             response = client.get(NamedRoutes.urlPath(99L));
             assertThat(response.code()).isEqualTo(HttpStatus.NOT_FOUND.getCode());
@@ -121,7 +121,7 @@ public final class AppTest {
 
         JavalinTest.test(app, (server1, client) -> {
             var response = client.post(NamedRoutes.urlCheckPath(url.getId()));
-            assertThat(response.code()).isEqualTo(HttpStatus.FOUND.getCode());
+            assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
 
             var urlCheck = UrlsCheckRepository.find(url.getId()).orElse(null);
             var title = urlCheck.getTitle();
