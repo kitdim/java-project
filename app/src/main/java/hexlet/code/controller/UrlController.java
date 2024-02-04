@@ -10,7 +10,6 @@ import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.URI;
 import java.net.URL;
 import java.util.Collections;
 import java.sql.SQLException;
@@ -48,7 +47,7 @@ public class UrlController {
                 .toLowerCase();
         String normalizedUrl;
         try {
-            URL someUrl = new URI(input).toURL();
+            URL someUrl = new URL(input);
             normalizedUrl = Normalizer.getNormalizedURL(someUrl);
         } catch (Exception exception) {
             log.info(exception.getMessage());
