@@ -71,7 +71,7 @@ public final class App {
 
     private static void setData(HikariConfig hikariConfig) {
         log.info("****Database start connection****");
-        String jdbcUrl = System.getenv().getOrDefault("JDBC_URL_DEFAULT", JDBC_URL_DEFAULT);
+        String jdbcUrl = System.getenv().getOrDefault("JDBC_DATABASE_URL", JDBC_URL_DEFAULT);
         hikariConfig.setJdbcUrl(jdbcUrl);
         boolean isProd = System.getenv().getOrDefault("APP_ENV", "dev").equals("prod");
 
