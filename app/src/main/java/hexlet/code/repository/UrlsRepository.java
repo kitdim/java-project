@@ -39,7 +39,7 @@ public class UrlsRepository extends BaseRepository {
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
-                var urlChecks = UrlsCheckRepository.getEntities(id).orElse(new ArrayList<>());
+                var urlChecks = UrlsCheckRepository.getEntities(id).get();
                 var url = Url.builder()
                         .id(id)
                         .name(name)
