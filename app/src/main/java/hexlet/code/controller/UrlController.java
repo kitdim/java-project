@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
 import java.util.Collections;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 @Slf4j
 public class UrlController {
@@ -65,8 +64,7 @@ public class UrlController {
             ctx.redirect(NamedRoutes.urlsPath());
         } else {
             log.info("success");
-            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-            Url url = Url.builder().name(normalizedUrl).createdAt(createdAt).build();
+            Url url = Url.builder().name(normalizedUrl).build();
             UrlsRepository.save(url);
             ctx.sessionAttribute("flash", SUCCESSFULLY);
             ctx.sessionAttribute("flash-type", "success");
