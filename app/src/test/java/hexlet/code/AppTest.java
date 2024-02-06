@@ -84,7 +84,7 @@ public final class AppTest {
             assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
             assertThat(UrlsRepository.getEntities().size()).isEqualTo(2);
             assertTrue(UrlsRepository.findByName("https://www.example1.com").isPresent());
-            assertTrue(UrlsRepository.find(1L).isPresent());
+            assertTrue(UrlsRepository.find(url.getId()).isPresent());
 
             response = client.post(NamedRoutes.urlsPath(), responseBody);
             assertThat(UrlsRepository.getEntities().size()).isEqualTo(2);
