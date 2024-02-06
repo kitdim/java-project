@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -96,6 +97,7 @@ public final class AppTest {
             response = client.post(NamedRoutes.urlsPath(), responseBody);
 
             assertTrue(UrlsRepository.findByName("httpdssds31s://www.example2.com").isEmpty());
+            assertFalse(response.isRedirect());
         }));
     }
 
