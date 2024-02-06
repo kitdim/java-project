@@ -73,25 +73,28 @@ public final class AppTest {
     public void testCreateUrl() throws SQLException {
         var url = Url.builder()
                 .createdAt(new Timestamp(System.currentTimeMillis()))
-                .name("https://www.example1.com")
+                .name("https://www.example.com")
                 .build();
         UrlsRepository.save(url);
 
         JavalinTest.test(app, ((server, client) -> {
-            var responseBody = "url=https://www.example2.com";
+            var responseBody = "url=".concat(url.getName());
             var response = client.post(NamedRoutes.urlsPath(), responseBody);
 
             assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
-            assertThat(UrlsRepository.getEntities().size()).isEqualTo(2);
-            assertTrue(UrlsRepository.findByName("https://www.example1.com").isPresent());
+            assertTrue(UrlsRepository.findByName("https://www.example.com").isPresent());
             assertTrue(UrlsRepository.find(url.getId()).isPresent());
 
+            responseBody = "url=https://www.example3.com";
             response = client.post(NamedRoutes.urlsPath(), responseBody);
+
             assertThat(UrlsRepository.getEntities().size()).isEqualTo(2);
+            assertTrue(UrlsRepository.findByName("https://www.example3.com").isPresent());
             assertThat(response.code()).isEqualTo(HttpStatus.OK.getCode());
 
             responseBody = "url=httpdssds31s://www.example2.com";
             response = client.post(NamedRoutes.urlsPath(), responseBody);
+
             assertTrue(UrlsRepository.findByName("httpdssds31s://www.example2.com").isEmpty());
         }));
     }
