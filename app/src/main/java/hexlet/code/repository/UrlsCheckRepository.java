@@ -4,6 +4,7 @@ import hexlet.code.model.UrlCheck;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ public class UrlsCheckRepository {
     public static void save(UrlCheck urlCheck) throws SQLException {
         String sql = "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
+        var createdAt = new Timestamp(System.currentTimeMillis());
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, urlCheck.getUrlId());
@@ -21,7 +23,7 @@ public class UrlsCheckRepository {
             stmt.setString(3, urlCheck.getH1());
             stmt.setString(4, urlCheck.getTitle());
             stmt.setString(5, urlCheck.getDescription());
-            stmt.setTimestamp(6, urlCheck.getCreatedAt());
+            stmt.setTimestamp(6, createdAt);
             stmt.executeUpdate();
 
             var generatedKeys = stmt.getGeneratedKeys();

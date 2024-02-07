@@ -13,7 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class UrlCheckController {
     private static final String INCORRECT_URL = "Incorrect URL";
@@ -35,14 +34,11 @@ public class UrlCheckController {
             var descriptionTemp = doc.selectFirst("meta[name=description]");
             var description = descriptionTemp == null ? "" : descriptionTemp.attr("content");
 
-            var createdAt = new Timestamp(System.currentTimeMillis());
-
             var urlCheck = UrlCheck.builder()
                     .statusCode(statusCode)
                     .title(title)
                     .h1(h1)
                     .urlId(urlId)
-                    .createdAt(createdAt)
                     .description(description)
                     .build();
 
