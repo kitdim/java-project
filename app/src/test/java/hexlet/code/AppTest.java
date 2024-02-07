@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.StringJoiner;
 
 import hexlet.code.model.Url;
@@ -73,7 +72,6 @@ public final class AppTest {
     @Test
     public void testCreateUrl() throws SQLException {
         var url = Url.builder()
-                .createdAt(new Timestamp(System.currentTimeMillis()))
                 .name("https://www.example.com")
                 .build();
         UrlsRepository.save(url);
@@ -105,7 +103,6 @@ public final class AppTest {
     public void testShowUrl() throws SQLException {
         var url = Url.builder()
                 .name("https://www.example1.com")
-                .createdAt(new Timestamp(System.currentTimeMillis()))
                 .build();
         UrlsRepository.save(url);
         JavalinTest.test(app, ((server, client) -> {
@@ -120,7 +117,6 @@ public final class AppTest {
     public void testCheckUrl() throws SQLException {
         var url = Url.builder()
                 .name(urlName)
-                .createdAt(new Timestamp(System.currentTimeMillis()))
                 .build();
         UrlsRepository.save(url);
 
