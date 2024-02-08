@@ -3,6 +3,8 @@ package hexlet.code.controller;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlsCheckRepository;
 import hexlet.code.repository.UrlsRepository;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.Normalizer;
@@ -13,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
 import java.util.Collections;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class UrlController {
@@ -21,8 +25,9 @@ public class UrlController {
     private static final String SUCCESSFULLY = "Page added successfully";
 
     public static void index(Context ctx) throws SQLException {
-        var urls = UrlsRepository.getEntities();
-        var page = new UrlsPage(urls);
+        List<Url> urls = UrlsRepository.getEntities();
+        Map<Long, UrlCheck> urlChecks = UrlsCheckRepository.findLatestChecks();
+        var page = new UrlsPage(urls, urlChecks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("urls/index.jte", Collections.singletonMap("page", page));
