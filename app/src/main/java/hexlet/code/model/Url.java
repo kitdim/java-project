@@ -9,7 +9,6 @@ import java.util.List;
 
 @Setter
 @Getter
-@Builder
 public final class Url {
     private Long id;
     private String name;

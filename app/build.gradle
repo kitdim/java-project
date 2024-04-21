@@ -2,10 +2,9 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.adarshr.test-logger' version '4.0.0'
-    id 'se.patrikerdes.use-latest-versions' version '0.2.18'
-    id 'com.github.ben-manes.versions' version '0.49.0'
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'io.freefair.lombok' version '8.4'
 }
 
 group = 'hexlet.code'
@@ -15,7 +14,22 @@ repositories {
     mavenCentral()
 }
 
+java {
+    sourceCompatibility = '20'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+application {
+    mainClass = "hexlet.code.App"
+}
+
 dependencies {
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.assertj:assertj-core:3.24.2'
@@ -48,19 +62,6 @@ dependencies {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-}
-
-application {
-    mainClass = "hexlet.code.App"
-}
-
-compileJava {
-    options.release = 20
-}
-
-testlogger {
-    theme 'mocha'
-    showStandardStreams true
 }
 
 jacocoTestReport {
