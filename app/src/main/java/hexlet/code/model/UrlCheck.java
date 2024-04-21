@@ -1,29 +1,28 @@
-package hexlet.code.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.sql.Timestamp;
-
-@Setter
-@Getter
-@Builder
-@AllArgsConstructor
-public final class UrlCheck {
-    private Long id;
-    private Long urlId;
-    private int statusCode;
-    private String h1;
-    private String title;
-    private String description;
-    private Timestamp createdAt;
-
-    public UrlCheck(int statusCode, String title, String h1, String description) {
-        this.statusCode = statusCode;
-        this.title = title;
-        this.h1 = h1;
-        this.description = description;
-    }
-}
+//package hexlet.code.model;
+//
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.Id;
+//import jakarta.persistence.ManyToOne;
+//import jakarta.persistence.Table;
+//import lombok.Getter;
+//
+//import java.sql.Timestamp;
+//
+//import static jakarta.persistence.GenerationType.IDENTITY;
+//
+//@Entity
+//@Table(name = "urls-checks")
+//@Getter
+//public final class UrlCheck {
+//    @Id
+//    @GeneratedValue(strategy = IDENTITY)
+//    private Long id;
+//    @ManyToOne
+//    private Url url;
+//    private int statusCode;
+//    private String h1;
+//    private String title;
+//    private String description;
+//    private Timestamp createdAt;
+//}

@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    active: ${APP_ENV:dev}
